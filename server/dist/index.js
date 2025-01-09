@@ -51,7 +51,7 @@ const dynamoose = __importStar(require("dynamoose"));
 //   requireAuth,
 // } from "@clerk/express";
 // /* ROUTE IMPORTS */
-// import courseRoutes from "./routes/courseRoutes";
+const courseRoutes_1 = __importDefault(require("./routes/courseRoutes"));
 // import userClerkRoutes from "./routes/userClerkRoutes";
 // import transactionRoutes from "./routes/transactionRoutes";
 // import userCourseProgressRoutes from "./routes/userCourseProgressRoutes";
@@ -77,7 +77,7 @@ app.use((0, cors_1.default)());
 app.get("/", (req, res) => {
     res.send("Hello World");
 });
-// app.use("/courses", courseRoutes);
+app.use("/courses", courseRoutes_1.default);
 // app.use("/users/clerk", requireAuth(), userClerkRoutes);
 // app.use("/transactions", requireAuth(), transactionRoutes);
 // app.use("/users/course-progress", requireAuth(), userCourseProgressRoutes);
