@@ -7,14 +7,14 @@ import morgan from "morgan";
 import * as dynamoose from "dynamoose";
 // import serverless from "serverless-http";
 // import seed from "./seed/seedDynamodb";
-// import {
-//   clerkMiddleware,
-//   createClerkClient,
-//   requireAuth,
-// } from "@clerk/express";
+import {
+  //   clerkMiddleware,
+  createClerkClient,
+  //   requireAuth,
+} from "@clerk/express";
 // /* ROUTE IMPORTS */
 import courseRoutes from "./routes/courseRoutes";
-// import userClerkRoutes from "./routes/userClerkRoutes";
+import userClerkRoutes from "./routes/userClerkRoutes";
 // import transactionRoutes from "./routes/transactionRoutes";
 // import userCourseProgressRoutes from "./routes/userCourseProgressRoutes";
 
@@ -25,9 +25,9 @@ if (!isProduction) {
   dynamoose.aws.ddb.local();
 }
 
-// export const clerkClient = createClerkClient({
-//   secretKey: process.env.CLERK_SECRET_KEY,
-// });
+export const clerkClient = createClerkClient({
+  secretKey: process.env.CLERK_SECRET_KEY,
+});
 
 const app = express();
 app.use(express.json());
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/courses", courseRoutes);
-// app.use("/users/clerk", requireAuth(), userClerkRoutes);
+app.use("/users/clerk", /*requireAuth(),*/ userClerkRoutes);
 // app.use("/transactions", requireAuth(), transactionRoutes);
 // app.use("/users/course-progress", requireAuth(), userCourseProgressRoutes);
 

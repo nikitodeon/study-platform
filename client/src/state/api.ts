@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query";
-// import { User } from "@clerk/nextjs/server";
+import { User } from "@clerk/nextjs/server";
 // import { Clerk } from "@clerk/clerk-js";
 import { toast } from "sonner";
 
@@ -63,21 +63,21 @@ export const api = createApi({
   baseQuery: customBaseQuery,
 
   reducerPath: "api",
-  tagTypes: ["Courses" /* "Users", "UserCourseProgress"*/],
+  tagTypes: ["Courses", "Users" /* "UserCourseProgress"*/],
   endpoints: (build) => ({
     /* 
     ===============
     USER CLERK
     =============== 
     */
-    // updateUser: build.mutation<User, Partial<User> & { userId: string }>({
-    //   query: ({ userId, ...updatedUser }) => ({
-    //     url: `users/clerk/${userId}`,
-    //     method: "PUT",
-    //     body: updatedUser,
-    //   }),
-    //   invalidatesTags: ["Users"],
-    // }),
+    updateUser: build.mutation<User, Partial<User> & { userId: string }>({
+      query: ({ userId, ...updatedUser }) => ({
+        url: `users/clerk/${userId}`,
+        method: "PUT",
+        body: updatedUser,
+      }),
+      invalidatesTags: ["Users"],
+    }),
 
     /* 
     ===============
@@ -236,7 +236,7 @@ export const api = createApi({
 });
 
 export const {
-  // useUpdateUserMutation,
+  useUpdateUserMutation,
   // useCreateCourseMutation,
   // useUpdateCourseMutation,
   // useDeleteCourseMutation,
