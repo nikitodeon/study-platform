@@ -48,7 +48,6 @@ const Landing = () => {
   const router = useRouter();
   const currentImage = useCarousel({ totalImages: 3 });
   const { data: courses, isLoading, isError } = useGetCoursesQuery({});
-  console.log("courses", courses);
 
   const handleCourseClick = (courseId: string) => {
     router.push(`/search?id=${courseId}`, {
