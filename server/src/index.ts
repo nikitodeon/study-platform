@@ -20,11 +20,17 @@ import userClerkRoutes from "./routes/userClerkRoutes";
 
 /* CONFIGURATIONS */
 dotenv.config();
+console.log("dotenv loaded");
+///////////////
+console.log("Clerk Secret Key:", process.env.CLERK_SECRET_KEY);
+/////////////
 const isProduction = process.env.NODE_ENV === "production";
 if (!isProduction) {
   dynamoose.aws.ddb.local();
 }
-
+///////////////
+console.log("Clerk Secret Key for Client:", process.env.CLERK_SECRET_KEY);
+////////////
 export const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
@@ -45,7 +51,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/courses", courseRoutes);
-app.use("/users/clerk", /*requireAuth(),*/ userClerkRoutes);
+app.use("/users/clerk", userClerkRoutes); /*requireAuth(),*/
 // app.use("/transactions", requireAuth(), transactionRoutes);
 // app.use("/users/course-progress", requireAuth(), userCourseProgressRoutes);
 

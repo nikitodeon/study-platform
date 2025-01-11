@@ -12,8 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = void 0;
 const index_1 = require("../index");
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("request recieved");
     const { userId } = req.params;
     const userData = req.body;
+    /////////////////
+    console.log("Updating user with ID: ", userId);
+    console.log("Data to update: ", {
+        publicMetadata: {
+            userType: userData.publicMetadata.userType,
+            settings: userData.publicMetadata.settings,
+        },
+    });
+    ///////////////////
     try {
         const user = yield index_1.clerkClient.users.updateUserMetadata(userId, {
             publicMetadata: {
@@ -24,6 +34,9 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json({ message: "User updated successfully", data: user });
     }
     catch (error) {
+        //////////
+        console.error("Error updating user: ", error);
+        /////////////
         res.status(500).json({ message: "Error updating user", error });
     }
 });

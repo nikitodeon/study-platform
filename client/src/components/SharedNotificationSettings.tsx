@@ -36,6 +36,11 @@ const SharedNotificationSettings = ({
 
   const onSubmit = async (data: NotificationSettingsFormData) => {
     if (!user) return;
+    //////////////////
+    console.log("Current user data: ", user);
+    console.log("Current settings: ", currentSettings);
+    console.log("Form data to save: ", data);
+    /////////////
 
     const updatedUser = {
       userId: user.id,
@@ -49,8 +54,19 @@ const SharedNotificationSettings = ({
     };
 
     try {
+      ////////////////////////////
+      console.log("Sending updated user data: ", updatedUser);
+      //////////////
       await updateUser(updatedUser);
+      ///////////
+      console.log("User settings updated successfully.");
+
+      ////////////////
     } catch (error) {
+      /////////////////
+      console.error("Failed to update user settings: ", error);
+      alert("Ошибка при обновлении настроек. Проверь логи.");
+      /////////////
       console.error("Failed to update user settings: ", error);
     }
   };
