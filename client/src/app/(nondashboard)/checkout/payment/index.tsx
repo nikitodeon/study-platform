@@ -11,52 +11,53 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import CoursePreview from "@/components/CoursePreview";
 import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import { useCreateTransactionMutation } from "@/state/api";
+import { useCreateTransactionMutation } from "@/state/api";
 import { toast } from "sonner";
 
 const PaymentPageContent = () => {
   const stripe = useStripe();
   const elements = useElements();
-  //   const [createTransaction] = useCreateTransactionMutation();
+  const [createTransaction] = useCreateTransactionMutation();
   const { navigateToStep } = useCheckoutNavigation();
   const { course, courseId } = useCurrentCourse();
   const { user } = useUser();
   const { signOut } = useClerk();
 
-  //   const handleSubmit = async (e: React.FormEvent) => {
-  //     e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  //     if (!stripe || !elements) {
-  //       toast.error("Stripe service is not available");
-  //       return;
-  //     }
+    if (!stripe || !elements) {
+      toast.error("Stripe service is not available");
+      return;
+    }
 
-  //     const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL
-  //       ? `http://${process.env.NEXT_PUBLIC_LOCAL_URL}`
-  //       : process.env.NEXT_PUBLIC_VERCEL_URL
-  //       ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  //       : undefined;
+    //   const baseUrl = process.env.NEXT_PUBLIC_LOCAL_URL
+    //     ? `http://${process.env.NEXT_PUBLIC_LOCAL_URL}`
+    //     : process.env.NEXT_PUBLIC_VERCEL_URL
+    //     ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    //     : undefined;
 
-  //     const result = await stripe.confirmPayment({
-  //       elements,
-  //       confirmParams: {
-  //         return_url: `${baseUrl}/checkout?step=3&id=${courseId}`,
-  //       },
-  //       redirect: "if_required",
-  //     });
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`,
+        //   `${baseUrl}/checkout?step=3&id=${courseId}`,
+      },
+      redirect: "if_required",
+    });
 
-  //     if (result.paymentIntent?.status === "succeeded") {
-  //       const transactionData: Partial<Transaction> = {
-  //         transactionId: result.paymentIntent.id,
-  //         userId: user?.id,
-  //         courseId: courseId,
-  //         paymentProvider: "stripe",
-  //         amount: course?.price || 0,
-  //       };
+    if (result.paymentIntent?.status === "succeeded") {
+      const transactionData: Partial<Transaction> = {
+        transactionId: result.paymentIntent.id,
+        userId: user?.id,
+        courseId: courseId,
+        paymentProvider: "stripe",
+        amount: course?.price || 0,
+      };
 
-  //       await createTransaction(transactionData), navigateToStep(3);
-  //     }
-  //   };
+      await createTransaction(transactionData), navigateToStep(3);
+    }
+  };
 
   const handleSignOutAndNavigate = async () => {
     await signOut();
@@ -77,7 +78,7 @@ const PaymentPageContent = () => {
         <div className="payment__form-container">
           <form
             id="payment-form"
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             className="payment__form"
           >
             <div className="payment__content">

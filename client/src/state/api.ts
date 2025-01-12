@@ -152,9 +152,9 @@ export const api = createApi({
     //   TRANSACTIONS
     //   ===============
     //   */
-    //   getTransactions: build.query<Transaction[], string>({
-    //     query: (userId) => `transactions?userId=${userId}`,
-    //   }),
+    getTransactions: build.query<Transaction[], string>({
+      query: (userId) => `transactions?userId=${userId}`,
+    }),
     createStripePaymentIntent: build.mutation<
       { clientSecret: string },
       { amount: number }
@@ -165,13 +165,13 @@ export const api = createApi({
         body: { amount },
       }),
     }),
-    //   createTransaction: build.mutation<Transaction, Partial<Transaction>>({
-    //     query: (transaction) => ({
-    //       url: "transactions",
-    //       method: "POST",
-    //       body: transaction,
-    //     }),
-    //   }),
+    createTransaction: build.mutation<Transaction, Partial<Transaction>>({
+      query: (transaction) => ({
+        url: "transactions",
+        method: "POST",
+        body: transaction,
+      }),
+    }),
 
     //   /*
     //   ===============
@@ -242,8 +242,8 @@ export const {
   useGetCoursesQuery,
   useGetCourseQuery,
   // useGetUploadVideoUrlMutation,
-  // useGetTransactionsQuery,
-  // useCreateTransactionMutation,
+  useGetTransactionsQuery,
+  useCreateTransactionMutation,
   useCreateStripePaymentIntentMutation,
   // useGetUserEnrolledCoursesQuery,
   // useGetUserCourseProgressQuery,
